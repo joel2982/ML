@@ -1,0 +1,87 @@
+MACHINE LEARNING ALGORITHMS
+
+1. Supervised Learning 
+ * In Supervised Learning alogrithms emit or find a function that will will take an input value "x mapping" and give you an output value "y mapping".
+ * To find the function required values for 'y', we use the already given set of given x and y values to find the desired function/model. 
+ * This model can predict answers from data it has not been seen/feed before to work-out the model, which can be somewhat be close to the real output values 'y' for the particular input value of 'x'.
+
+    There are 2 types of supervised learning models:
+     * Regression: Prediction can be in form of any number i.e. infinite set of desired outputs(Ans: Continous Type Prediction)
+      * Classification: Prediction can be in form of a fixed(finite) set of categories/outputs (Ans: Descrete Type Prediction)
+
+2. Unsupervised Learning
+ * When the given dataset doesn't consist or specifically mentions what to predict from the given data. When data just comes with input 'x' but not output labels 'y' and the algorithm has to find some structure in the data.
+ * When we are given raw data and want to draw inferences from the data to categorize the data into segments or finding a pattern in them.
+ * It is called Unsupervised because we don't govern the alogrithm to give a certain output as in the earlier case of supervised learning where to build the model we used to both input and output values.
+ * Google News does clustering, wherein giving you similar type or genres of news to read that you may be interested in.
+
+    There are 3 basic types of unsupervised learning:
+     * Clustering: Grouping similar data chunks together into segaments based on there similarities or dissimlarities.
+     * Anomaly Detection: Finding Unusual Datapoints. These algorithms can be used for finding bank frauds and many other outliers.
+     * Dimensionality Reduction: Compress data into fewer columns to reduce processing time.
+
+
+Terminology for Machine Learning Model
+ 1. Training Set: Data used to train the model. Model is build by using this data, a machine learns from this dataset.
+ X = input variable/matrix or feature matrix (in most cases X is a matrix rather than a variable as there can be many features to describe or are correlated to the target variable)
+ y = target variable (variable that needs to be predicted)
+ m = no of training examples
+ (X,y) = training examples
+ (X^i,y^i) = ith training example
+
+Process of How supervised learning works
+ * To train the model you feed the input and the output sets i.e. features and targets to a supervised learning algorithm and this algorithm will give/produce a function (f).
+ * The use of function(f) is takes an input X and produces or gives out an output y^(y-hat) which is the prediction by f. The function can also be called as a model. y^ is just an estimation of the true value and not the True value(y).
+
+Linear Regression model (univariate)
+In Linear Regression Model, you just find a linear function that is the best fit for the given Datapoints(x and y values)
+ * f_(w,b) (X) = wX + b
+ * w,b  = parameters of the model (coefficients or weights)
+   Parameters of the model can be adjusted to improve the model, so that model can have a better predictibility to the real-world values. 
+
+Cost function
+This function helps you understand how good or bad your model is performing when compared with the real-world data.
+ * Squared Error Cost Function:
+      J(w,b) = sum(y^(i)-y(i))^2 /m or J(w,b) = sum(f(x(i))-y(i))^2 /m
+      m = number of training examples
+ * The least the value of J(w,b) will result in giving us the best model of all the other models, whose predicted value will be closest to the real value(y).
+ * Contour maps are a way to depict functions with a two-dimensional input and a one-dimensional output. These maps can be benificial to plot the graph between w,b and the cost function J(w,b).
+ * When for a value of (w,b) you get the closest value to the centre of the contour plot or the centre of the ellipse. Functions with these (w,b) can be considered as the best model or the line of best fit.
+
+Gradient Descent Algorithm
+Gradient Descent is an optimization algorithm that is used when training machine learning models. It is base on a convex function and the algorithm tweaks its parameters iteratively to minimize a given function to its local minimum. 
+"Batch" Gradient Descent: Each step of gradient descent uses the whole training dataset.
+https://builtin.com/data-science/gradient-descent
+ * Gradient Descent is a more general algorithm and can be used to form any general functions, including other cost functions that work with models that have more than 2 parameters.
+ * J(w1,w2,w3,...,wn,b) [Find the minimum value of J for the respective parameters]
+ * How this models works is, first you keep assume the value of w,b and then keep changing its values to reduce J(w,b) until J comes near minimum. Also, there can be more than one set of parameters that achieve minimum value for the function as the no. of parameters increases.
+ * Another can can be there if we are working with more than 2 parameters. This can lead to more than one minimum, hence having seperate local minimum. The valleys in the garaphs can be called local minimas. Because if you start going down the first valley, gradient descent won't lead you to the second valley, and the same is true if you started going down the second valley, you stay in that second minimum and not find your way into the first local minimum.
+ * Repeat until value of (w.b) converges to a particular value. Use Gauss Jacobi Method to 
+   def perform_gradient_descent(init_w, eta, num_iters, get_gradient)
+      init_w = intial assumed value of w(coefficient)
+      eta = step size(by how much do you want to increment to find the next suitable value of w)
+      [smaller the value of eta, longer is it will take to reach the minimum value. larger the eta value it can  skip the minimum value as step size can be more than the difference of minimum_w and wi, hence it can effect the accuracy]
+      num_iters = no of iterations
+      It is not neccesary, although it works as a stoping condition. You can replace it with least error value that you can tolerate.
+      get_gradient = value of gradient at w   
+ * The higher the gradient, the steeper the slope and the faster a model can learn. But if the slope is zero, the model stops learning. In mathematical terms, a gradient is a partial derivative with respect to its inputs.
+ * w = w - aplha*(J'(w,b))
+      This means assigning a new value to w such that w reduces from its previous value and coming closer to the value of w which results in minimum value of loss function.
+      aplha = step size or learning rate
+ * b = b - alpha*(J'(w,b))
+      When you are finding the value of b you take the partial derivative of J with respect to b. When you are finding the suitable value for w you take the partial derivative with respect to w.
+
+Factors Effcting  Gradient Descent
+ * Value of partial derivatives
+      If the assumed point is on the left(less than) of the minimum and function is decreasing. Then the derivative of the function will be a negative value, which in turn will become positive due to the sign and adding to the initial_w.
+      Similarly if the assumed point is to the right(more than) of the minimum and function increases as you go forward. Then derivative will be a positive value, hence subtracting from the initial_w.
+      Both the above cases, will in turn bring value of w closer to the value of w where J is minimum.
+      At Local minimum value of p.d. turns out to be 0. Giving out an output that is always equal to the previous value of w.
+      Movement from the initial to the new value of w can be large if graph is steeper, resulting in a high magnitude of derivative. Due to which reduction rate of w is high. Now as it comes closer to the minimum curve can start to become broader, which can result into increment or decrement of w in small magnitude.
+ * Learning Rate
+      If the gradient descent is too small, then the incremental step taken to increase or decrease the value of w will be very small. Resulting in the rate of gradient descent being very slow.<convergence will be very slow>
+      If the gradient descent is too large , then the incremental step will be too large, which inturn will overshoot. Hence, never reaching the minimum. <Fail to converge>
+
+Gradient Descent Algorithm
+   w = w - sum(f(x(i))-y(i))*x(i)/m
+   b = b - sum(f(x(i))-y(i))/m
