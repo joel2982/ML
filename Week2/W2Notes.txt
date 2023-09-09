@@ -1,0 +1,97 @@
+MULTIPLE LINEAR REGRESSION
+
+The name for this type of linear regression model with multiple input features is multiple linear regression. This is in contrast to univariate regression, which has just one feature. By the way, this algorithm is not called multivariate regression, but that term actually refers to something else. This model is referred to as multiple linear regression.
+
+Notations
+    x_j = jth feature
+    n = no of features
+    x^i = features of ith training example
+    x^(i)_j = value of feature j in ith training example
+
+f(X) = w1X1 + w2X2 + w3X3 + w4X4 + b
+
+f(X) = 0.1X1 + 4X2 + 10X3 + (-2)X4 + 80
+
+b = base price 
+X1 = size
+X2 = bedrooms
+X3 = floors
+X4 = property age
+
+If the model is trying to predict the price of the house in thousands of dollars, you can think of this b equals 80 as saying that the base price of a house starts off at maybe $80,000, assuming it has no size, no bedrooms, no floor and no age. You can think of this 0.1 as saying that maybe for every additional square foot, the price will increase by 0.1 $1,000 or by $100, because we're saying that for each square foot, the price increases by 0.1, times $1,000, which is $100. Maybe for each additional bathroom, the price increases by $4,000 and for each additional floor the price may increase by $10,000 and for each additional year of the house's age, the price may decrease by $2,000, because the parameter is negative 2.
+
+In general we can denote the function to find the rent price as
+    f(X) = w1X1 + w2X2 + w3X3 + ... + wnXn + b
+
+We can also simplify it as the dot product of vectors w and X
+    w = [w1,w2,w3,...,wn]
+    b = arbitary number
+    X = [X1,X2,X3,...,Xn]
+
+f(X) = W.X + b  # dot product of W and X
+
+An implementation without vectorization for computing the model's prediction will take each parameter w and multiply it by his associated feature. Now, you could write your code like one parameter at time, but what if n isn't three but instead n is a 100 or a 100,000 is both inefficient for you the code and inefficient for your computer to compute. Here's another way. Without using vectorization but using a for loop.
+f = 0
+for i in range(0,n):
+    f = f + W[i]*X[i]
+f = f + b
+
+Vectorisation
+f = np.dot(W,X) + b
+
+Vectorization actually has two distinct benefits. 
+ * First, it makes code shorter, is now just one line of code.
+ * Second, it also results in your code running much faster than either of the two previous implementations that did not use vectorization. The reason that the vectorized implementation is much faster is behind the scenes.
+    The NumPy dot function is able to use parallel hardware in your computer and this is true whether you're running this on a normal computer, that is on a normal computer CPU or if you are using a GPU, a graphics processor unit, that's often used to accelerate machine learning jobs. The ability of the NumPy dot function to use parallel hardware makes it much more efficient than the for loop or the sequential calculation that we saw previously.
+
+Why Vectorisation is faster than non-vectorized code?
+ * The for loop like this runs without vectorization. If j ranges from 0 to say 15, this piece of code performs operations one after another. On the first timestamp(t0). It first operates on the values at index 0. At the next time-step, it calculates values corresponding to index 1 and so on until the 15th step, where it computes that. In other words, it calculates these computations one step at a time, one step after another.
+ * In contrast, this function in NumPy is implemented in the computer hardware with vectorization. The computer can get all values of the vectors W and X, and in a single-step, it multiplies each pair of W and X with each other all at the same time in parallel. Then after that, the computer takes these 16 numbers and uses specialized hardware to add them altogether very efficiently, rather than needing to carry out distinct additions one after another to add up these 16 numbers. This means that codes with vectorization can perform calculations in much less time than codes without vectorization.
+ * This matters more when you're running algorithms on large data sets or trying to train large models, which is often the case with machine learning. That's why being able to vectorize implementations of learning algorithms, has been a key step to getting learning algorithms to run efficiently, and therefore scale well to large datasets that many modern machine learning algorithms now have to operate on. 
+
+The previous example used reshape to shape the array.
+    a = np.arange(6).reshape(-1, 2)
+This line of code first created a 1-D Vector of six elements. It then reshaped that vector into a 2-D array using the reshape command. This could have been written:
+    a = np.arange(6).reshape(3, 2)
+To arrive at the same 3 row, 2 column array. The -1 argument tells the routine to compute the number of rows given the size of the array and the number of columns.
+x
+Gradient Descent for Multiple Linear Regression
+    W = W - o.1*D
+ D = vector of the derivative of the cost function (check W1Notes for the cost function)
+    Vector Notation for Gradient Descent
+     * W = [W1,W2, ... ,Wn]
+     * f(X) = W.X + b
+     * Cost Function: J(W,b)
+     * REPEAT{  Wj = Wj - alpha * pd(J(W,b))/dWj    # partial derivative with respect to Wj
+                    # Here for j goes from 1 to n and j signifies jth feature(column)
+
+                b = b - alpha * pd(J(W,b))/db       # partial derivative with respect to b
+                }
+
+An alternative to gradient Descent: Normal Equation
+ * It is only used for linear regression models
+ * Solves for W,b without iterations
+ * Normal Equation Method can be used in the ML Libraries that implement linear regression
+
+Disadvantages:
+ * Doeesn't generalize to other learning algorithms
+ * Processing is slow when number of features is large (>10,000)
+
+Feature Scaling
+ * Choosing the adequate/better set of parameters 
+    Imagine taking to features with varied range, one having a small range and the other feature having a larger range. So we have to choose the values of W in such a way that when a possible range of values of a feature is large, like the size and square feet which goes all the way up to 2000. It's more likely that a good model will learn to choose a relatively small parameter value, like w1 = 0.1. Likewise, when the possible values of the feature are small, like the number of bedrooms, then a reasonable value for its parameters will be relatively large like 50.
+
+ * How different values of parameters effect the output of the model
+    Also for a very small change to w1/sq feet can have a very large impact on the estimated price (as we chose the value of w1 to be small to compensate the higher range of the variable/feature) and that's a very large impact on the cost function J. Because w1 tends to be multiplied by a very large number, the size and square feet. In contrast, it takes a much larger change in w2 in order to change the predictions much. And thus small changes to w2, don't change the cost function nearly as much.
+
+ * So, rescaling/transforming the features(X1 and X2) that take different ranges of values such that both features now range from 0-1, hence taking a comparable range of values can speed up gradient descent significantly. 
+
+ * Feature Scaling Methods
+     * Dividing by the max value
+       X1_scaled = X1/max
+       0 =< X1 <= 1 
+     * Mean Normalization
+       X1 = (X1 - mean)/(max - min)
+       -1 =< X1 <= 1
+     * Z-Score Normalization
+       X1 = (X1 - mean)/standardDeviation

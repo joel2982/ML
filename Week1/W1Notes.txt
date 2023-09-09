@@ -40,9 +40,9 @@ In Linear Regression Model, you just find a linear function that is the best fit
    Parameters of the model can be adjusted to improve the model, so that model can have a better predictibility to the real-world values. 
 
 Cost function
-This function helps you understand how good or bad your model is performing when compared with the real-world data.
+This function helps you understand how good or bad your model is performing when compared with the real-world data. It is a Loss function used in ML to quantify the error produced by an ML model.
  * Squared Error Cost Function:
-      J(w,b) = sum(y^(i)-y(i))^2 /m or J(w,b) = sum(f(x(i))-y(i))^2 /m
+      J(w,b) = sum((y^(i)-y(i))^2)/2m or J(w,b) = sum((f(x(i))-y(i))^2)/2m
       m = number of training examples
  * The least the value of J(w,b) will result in giving us the best model of all the other models, whose predicted value will be closest to the real value(y).
  * Contour maps are a way to depict functions with a two-dimensional input and a one-dimensional output. These maps can be benificial to plot the graph between w,b and the cost function J(w,b).
@@ -60,7 +60,7 @@ https://builtin.com/data-science/gradient-descent
    def perform_gradient_descent(init_w, eta, num_iters, get_gradient)
       init_w = intial assumed value of w(coefficient)
       eta = step size(by how much do you want to increment to find the next suitable value of w)
-      [smaller the value of eta, longer is it will take to reach the minimum value. larger the eta value it can  skip the minimum value as step size can be more than the difference of minimum_w and wi, hence it can effect the accuracy]
+      [smaller the value of eta, longer is it will take to reach the minimum value. larger the eta value it can skip the minimum value as step size can be more than the difference of minimum_w and wi, hence it can effect the accuracy]
       num_iters = no of iterations
       It is not neccesary, although it works as a stoping condition. You can replace it with least error value that you can tolerate.
       get_gradient = value of gradient at w   
@@ -71,7 +71,7 @@ https://builtin.com/data-science/gradient-descent
  * b = b - alpha*(J'(w,b))
       When you are finding the value of b you take the partial derivative of J with respect to b. When you are finding the suitable value for w you take the partial derivative with respect to w.
 
-Factors Effcting  Gradient Descent
+Factors Effcting Gradient Descent
  * Value of partial derivatives
       If the assumed point is on the left(less than) of the minimum and function is decreasing. Then the derivative of the function will be a negative value, which in turn will become positive due to the sign and adding to the initial_w.
       Similarly if the assumed point is to the right(more than) of the minimum and function increases as you go forward. Then derivative will be a positive value, hence subtracting from the initial_w.
@@ -85,3 +85,6 @@ Factors Effcting  Gradient Descent
 Gradient Descent Algorithm
    w = w - sum(f(x(i))-y(i))*x(i)/m
    b = b - sum(f(x(i))-y(i))/m
+
+Gradient Descent Algorithm is different from Linear Regression. Gradient Descent finds the best suitable  model from a set of model whose parameters are given. Linear Regression is a model which helps you find model to replicate the data points.
+GD finds which Linear Regression model will best suit the give data set and finds the best fit line.
