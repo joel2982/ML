@@ -95,3 +95,18 @@ Feature Scaling
        -1 =< X1 <= 1
      * Z-Score Normalization
        X1 = (X1 - mean)/standardDeviation
+
+Automatic Convergence test
+    e = 0.001  {epsilon}
+ * If J(w,b) decreases by < e in one iteration, then function can be said to conerge (Declare Convergence)
+ * In other words, the parameters w,b for the respective iteration is close to the global minimum
+
+Choosing the Learning Rate
+ * If your continuously increases and decreases and causes to have multiple maximas and minimas. Then your learning rate(alpha) is large.
+ * If the graph continuously increases then also it is possible that the learning rate is large. Another issue can be a bug in the algorithm. 
+ * In place of w = w - a*d1, the algorithm would be w = w + a*d1. Hence showing a monotonically increasing function.
+ * With a small Learning Rate, the cost function J(w,b) should decrease on every iteration.
+ * Alpha should be set to a small value, although the smaller the alpha value the more time/iteration it will take to converge reach the desired value.
+ * Alpha should be chosen in such a way that it doesn't take much iterations to converge and it should not be that big that it does not converge. So first find the minimum value and then increase the alpha 3fold to find the optimal learning rate.
+ 
+Since the cost function is increasing, we know that gradient descent is diverging, so we need a lower learning rate. 
