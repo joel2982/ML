@@ -1,0 +1,106 @@
+Logistic Regression (Binary Classification)
+ * In the case of linear regression, y would not have been limited to two values but could have been any value. For Logistic Regression Cases the answer/y is limited to two(or Distinct) values.
+    Class = Category (Distinct Values)
+ * Sigmoid Function also known as Logistic Function outputs values between 0 and 1 
+    g(z) = 1/(1+e^(-z))   where 0 < g(z) < 1
+ * As z tends to positive value or +ve infinity, g(z) tends to 1. Similarly as z tends to a negative value or -ve infinity, g(z) tends to 0.
+ * f_(w,b)(X) = g(wX + b) = 1/(1 + e^(-(wX + b)))
+    f_(w,b)(X) = probability that class value = 1
+    if f_(w,b)(X) = 0.7
+       => f_(w,b)(X) = P(y=1 | X;w,b)
+
+In the case of logistic regression, z (the input to the sigmoid function), is the output of a linear regression model.
+ * In the case of a single example, 𝑧 is scalar.
+ * In the case of multiple examples, 𝑧 may be a vector consisting of 𝑚 values, one for each example.
+ * The implementation of the sigmoid function should cover both of these potential input formats.
+
+Decision Boundary
+    A decision boundary, is a surface/line that separates data points belonging to different class lables. It can be a threshold such that the model output will give a prediction of class 1, if f(X) is more than the threshold value.
+     * If f(X) >= 0.5  => y^ = 1  else y^ = 0
+ * So, when wX +b > 0 then y^ = 1
+   If wX + b < 0 then y^ = 0
+ * Decision Boundary Equation
+   wX + b = 0                   (linear)
+   w1X1 + w2X2 + w3X3 + b = 0   (multi-linear)
+   w1X1^2 + w2X2^2 + b = 0      (non-linear)
+ * The model can define decision boundaries an ellipse with a different choice of the parameters. You can even get more complex non-linear decision boundaries. The implementation of logistic regression will predict y equals 1 inside this shape and outside the shape will predict y equals 0.
+
+Cost Function for Logistic Regression
+   i = 1....m training examples
+   j = 1....n features
+   target y = 0,1
+   J(w,b) = sum( ((f(Xi)-yi)^2)/2 )/m
+     Here L(f(Xi),yi) = ((f(Xi)-yi)^2)/2
+
+ * Logistic Loss function
+      L(f(Xi),yi) = -log(f(Xi))  if yi = 1
+                  = -log(1-f(Xi))  if yi = 0
+   Loss Function value is lowest when f(Xi) predicts close to the true value of yi and the Loss Function Value is largest when f(Xi) predicts farther from the true value of yi
+
+ * Loss is a measure of the difference of a single example to its target value while the Cost is a measure of the losses over the whole training set.
+
+Hence Cost Function = J(w,b) = sum( L(f(Xi),yi) )
+
+Simplified Logistic Functions
+ * Loss(f(Xi),yi) = -yi*log(f(Xi)) - (1 - yi)*log( 1-f(Xi) )
+ * Cost = J(w,b) = - sum([yi*(f(Xi)) - (1 - yi)*log(1-f(Xi))]) /m
+
+Gradient Descent for Logistic Regression
+   REPEAT {
+   * wj = wj - alpha * [ sum(f(Xi) - yi)Xi ]/m
+   * b = b - alpha * [ sum(f(Xi) - yi) ]/m
+   }
+ * Although this may look similar to linear regression GD the function f(Xi) is different in both Cases.
+     Logistic Regression: f(X) = 1/( 1 + e^(-(wX+b)) )
+     Linear Regression: f(X) = wX + b
+
+All Concepts that were applied in Linear Regression can be applied in Logisitic Regression keeping in mind the differences in the Equation.
+ * Convergence
+ * Vectorized Implementation
+ * Feature Scaling
+
+The Problem with Overfitting & Underfitting
+   Underfitting (Highly Biased)
+    * When the model does not fit the training dataset well. It can also describe how highly biased the model is i.e. the model overestimates the prediction of some input values and underestimates for other input values.
+
+   Overfitting (High Variance)
+    * When the model fits the training dataset very well. He model is fit so well that any point other than the training set may give out an inaccurate prediction. Model is trying to fit every training example. This happens mostly when there is a lot of features.
+
+   Genaralization
+    * The Process of checking for the working of the model using the data which is not present in the training set is called Generalization. A model should be able to generalize well i.e. it should be able to predict a near-real values for new datapoints.
+
+Addressing Overfitting
+ * Collect more data(training examples)
+ * Select features to include/exclude before training the model. Just select the relevant features.
+ * Regularization by reducing the size of parameters(wj)
+
+Cost Function with Regularization
+   J(w,b) = min [ sum([f(Xi) - yi])/2m + sum(wj^2)*(lambda)/2m + {lambda/2m *b^2} ]
+
+   J(w,b) = min [ sum([f(Xi) - yi])/2m  sum(wj^2)*(lambda)/2m ]
+   It both fits the data and reduces th values of parameters to prevent Overfitting 
+
+ * If lambda = 0 then the model will overfit.
+ * If lambda >>> 0 then the model will underfit.
+ * So we have to choose lamba that balances the mean squared error term and the regularization term. 
+Increasing the regularization parameter lambda reduces overfitting by reducing the size of the parameters.  For some parameters that are near zero, this reduces the effect of the associated features. 
+
+Regularized Linear Regression:
+ * Implementation of Gradient Descent
+    REPEAT {
+      wj = wj - alpha * [ sum(f(Xi) - yi)Xi + lambda*wj ]/m
+      b = b - alpha * [ sum(f(Xi) - yi) ]/m
+    }
+   wj can also be written as
+      wj = wj*[1 - alpha*lambda/m] - alpha*[ sum(f(Xi) - yi)Xi ]/m
+         = new term - the usual update term
+   The new term [1 - alpha*lambda/m] reduces the values of wj by a slight bit before subtracting it with the derivate.
+
+Regularized Logistic Regression:
+   Cost Function 
+    * J(w,b) = min [ sum( yi*log(f(Xi)) + (1 - yi)*log(1 - f(Xi)) )/2m  sum(wj^2)*(lambda)/2m ]
+ * Implementation of Gradient Descent
+    REPEAT {
+      wj = wj - alpha * [ sum(f(Xi) - yi)Xi + lambda*wj ]/m
+      b = b - alpha * [ sum(f(Xi) - yi) ]/m
+    }
