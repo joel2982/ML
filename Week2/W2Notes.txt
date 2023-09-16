@@ -110,3 +110,22 @@ Choosing the Learning Rate
  * Alpha should be chosen in such a way that it doesn't take much iterations to converge and it should not be that big that it does not converge. So first find the minimum value and then increase the alpha 3fold to find the optimal learning rate.
  
 Since the cost function is increasing, we know that gradient descent is diverging, so we need a lower learning rate. 
+ * with multiple features, we can no longer have a single plot showing results versus features.
+ * when generating the plot, the normalized features were used. Any predictions using the parameters learned from a normalized training set must also be normalized.
+
+Feature Engineering
+ * Using the intuition to design new features, by transforming or combining original features. This is done so that it is easier to find a much better model for predicting the desired value.
+
+Polynomial Regression
+ * This type of regression can be used to fit non-linear curves/models into the dataset. Sometimes Polynomial Models are a better fit to the given dataset than a linear Regression Model.
+    f(X) = w1X + w2X^2 + b
+    f(X) = w1X + w2X^2 + w3X^3 + b
+ * Now as we use the powers of X in our model. Feature scaling becomes more important because the range to X^2 will be squared that of X, similarly the range of X^3 will be cube of the range of X.
+
+To find what kind of model will be best fit for the given dataset, use the Gradient Descent algorithm on a higher order Equation/Model.
+Gradient descent has emphasizes that the data is the best fit to the  𝑥^2 data by increasing the  𝑤1 term relative to the others. If you were to run GD for a very long time, it would continue to reduce the impact of the other terms.
+
+    Gradient descent is picking the 'correct' features for us by emphasizing its associated parameter
+     * Intially, the features were re-scaled so they are comparable to each other
+     * less weight value implies less important/correct feature, and in extreme, when the weight becomes zero or very close to zero, the associated feature is not useful in fitting the model to the data.
+     * above, after fitting, the weight associated with the 𝑥2 feature is much larger than the weights for 𝑥 or 𝑥3 as it is the most useful in fitting the data.
