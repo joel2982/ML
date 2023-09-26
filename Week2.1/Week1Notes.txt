@@ -1,0 +1,31 @@
+Neural Networks
+    Algorithms that try to mimic the brain. A neural network is a series of algorithms that endeavors to recognize underlying relationships in a set of data through a process that mimics the way the human brain operates. In this sense, neural networks refer to systems of neurons, either organic or artificial in nature.
+
+    Over the last couple of decades, with the rise of the Internet, the rise of mobile phones, the digitalization of our society, the amount of data we have for a lot of applications has steadily increased.  So in many application areas, the amount of digital data has exploded.
+    Traditional learning algorithms like linear regression and logistic regression, weren't able to scale with the amount of data we could now feed it and they weren't able to take effective advantage of all this data we had for different applications.
+
+    If you were to train a small neural network on this dataset, then the performance increses as compared to the traditional techniques. If you were to train a medium-sized neural network, meaning one with more neurons in it, its performance increses even more. If you were to train a very large neural network, meaning one with a lot of these artificial neurons, then for some applications the performance will just keep on going up.
+
+One neuron can take multiple inputs cand after processing, it gives out one single output. This ouput can act as an input for other neurons.
+
+DEMAND PREDICTION
+Suppose you need are implementing a logestic regression model, where x = price, f(x) = prediction if the item is a best seller or not.
+
+Now f(x) = a, which is renamed as the activation function.
+
+ * Now if there are more than one feature, Neural Networks can be created in way that it takes in different characterstics for a desireable outcome. These characterstics can be dependent on all or a subset of given the features. 
+ * Each stage which has a set of characterstics can be called as a layer of the neural network. A layer can have multiple or a single neurons. 
+ * Every NN has a input layer which specifies the no of inputs, an output layer which is mostly a single neuron and a set of hidden layers with any number of neurons in each layers. 
+ * Each neuron is connected to all the neurons of the previous layers and if some neuron of the previous layer is not needed for the present neuron, it just reduces the weights of that previous neuron. This is easier than just selecting few layers to be connected as choosing neurons manually will be tedious task. 
+ * Using NN, you can learn your the dataset's features and can give out better features than will help in improving the prediction of the desirable value. It can automate feature engineering.
+
+Neural Network layer
+ * Subscript is used to denote the corresponding neuron in a particular layer
+ * Superscript is used to denote a particular layer [1]
+     This also gives you an idea that a layer can have a sub layer hence a layer can be a 1D array or more.
+    a[1]1 = g(W[1]1X + b[2]1)
+ * a[1](vector) = output of layer one, and this will be the input of the next layer. So the activation function of the next layer will be
+     a[2]1 = g(W[2]1 * a[1] + b[2]1)
+ * Output of a layer will be a vector comparising of all the outputs of the individual neuron of that layer.
+
+()
