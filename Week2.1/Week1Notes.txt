@@ -23,9 +23,65 @@ Neural Network layer
  * Subscript is used to denote the corresponding neuron in a particular layer
  * Superscript is used to denote a particular layer [1]
      This also gives you an idea that a layer can have a sub layer hence a layer can be a 1D array or more.
-    a[1]1 = g(W[1]1X + b[2]1)
+    a[1]1 = g(W[1]1. X + b[2]1)    X = a[0]
  * a[1](vector) = output of layer one, and this will be the input of the next layer. So the activation function of the next layer will be
-     a[2]1 = g(W[2]1 * a[1] + b[2]1)
+     a[2]1 = g(W[2]1 . a[1] + b[2]1)
  * Output of a layer will be a vector comparising of all the outputs of the individual neuron of that layer.
 
+Generalizing the activation function
+    a[l]j = g(W[l]j . a[l-1] + b[l]j)
+ * l = current layer
+ * j = corresponding neuron of that layer
+ * a[l-1] = output of the previous layer
+ * w,b are the parameter of the layer l, neuron j
+
+TensorFlow
+ * Explicit way
+    x = np.array([[200,17]]) // features
+    // Matrix = 2D Array or a bigger is taken as input
+
+    layer1 = Dense(units=3, activation='sigmoid')   // units = no of neurons in layer1
+    a1 = layer1(x)
+
+    layer2 = Dense(units=1, activation='sigmoid')   // units = no of neurons in layer1
+    a2 = layer2(a1)
+
+How data is represented in TensorFlow
+ * TensorFlow was designed to handle very large datasets and by representing the data in matrices instead of 1D arrays, it lets TensorFlow be a bit more computationally efficient internally.
+    tf.Tensor = Matrix     (similar not completely same)
+
+//
+model = Sequential( [layer1, layer2] ) 
+    or
+model = Sequential( 
+                [Dense(units=3, activation='sigmoid'),
+                 Dense(units=1, activation='sigmoid')]
+            ) 
+
+y = np.array([[.21]])      // target variable
+model.compile()
+model.fit(x,y)      // train the model on the dataset x,y
+model.predict(xnew)
 ()
+
+// Normalization of the data using tf.keras
+norm_l = tf.keras.layers.Normalization(axis=-1)
+norm_l.adapt(X)  # learns mean, variance
+Xn = norm_l(X)
+
+ * An epoch refers to one cycle through the full training dataset. Usually, training a neural network takes more than a few epochs.
+ * For efficiency, the training data set is broken into 'batches'. The default size of a batch in Tensorflow is 32. 
+
+W1, b1 = model.get_layer("layer1").get_weights()
+W2, b2 = model.get_layer("layer2").get_weights()
+
+model.compile(
+    loss = tf.keras.losses.BinaryCrossentropy(),
+    optimizer = tf.keras.optimizers.Adam(learning_rate=0.01),
+)
+
+model.fit(
+    Xt,Yt,            
+    epochs=10,
+)
+
