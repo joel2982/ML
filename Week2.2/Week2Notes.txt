@@ -1,0 +1,101 @@
+import tensorflow as tf
+from tensorflow.keras import Sequential
+from tensorflow.keras.layers import Dense
+
+// Structuring/Defining the model
+model = Sequential( 
+                [Dense(units=3, activation='sigmoid'),
+                 Dense(units=1, activation='sigmoid')]
+            ) 
+
+
+// Compile the model 
+model.compile(
+    loss = tf.keras.losses.BinaryCrossentropy(),
+                    // logisitic loss function is also known as binary cross entropy in tensorflow
+
+    optimizer = tf.keras.optimizers.Adam(learning_rate=0.01),
+)
+
+// fitting the model to the given dataset i.e. training the model
+model.fit(
+    Xt,Yt,            
+    epochs=10,
+)
+
+Model Training steps
+ 1. specify how to compute the output for given input x with parameters W,b
+ 2. specify the loss and the cost function for the above model chosen
+ 3. Train on data and minimize the the value cost function
+
+
+ALTERNATIVES TO THE SIGMOID FUNCTION
+ 1. ReLU function- Rectified Linear Unit
+    g(Z) = max(0,Z)
+https://builtin.com/machine-learning/relu-activation-function 
+
+HOW TO CHOOSE THE ACTIVATION FUNCTION
+For Output Layer
+ 1. Sigmoid- Binary Classification
+    y = 0/1
+ 2. Regression- Linear Activation function
+    y = +/-
+ 3. Regression- ReLU function
+    y = 0/1
+for hidden layer mostly ReLU functions are used as it facilitates faster learning
+
+
+MULTI-CLASS CLASSIFICATION
+ * Target y can take more than 2 values, in contrary with the case in binary Classification. Here we can have more outcome categories which will divide them using decision boundries.
+
+Softmax Regression can be called Generalized Logistic Regression
+ * Eqns of z value for 4 possible outputs
+    z1 = w1.x + b1
+    z2 = w2.x + b2
+    z3 = w3.x + b3
+    z4 = w4.x + b4
+
+ * Probability of the respective output
+    P(y=1|x) = a1 = e^z1/(e^z1 + e^z2 + e^z3 + e^z4)
+    a2 = e^z2/(e^z1 + e^z2 + e^z3 + e^z4)
+    a3 = e^z3/(e^z1 + e^z2 + e^z3 + e^z4)
+    a4 = e^z4/(e^z1 + e^z2 + e^z3 + e^z4)
+
+ * loss function = -log(aj)     j = y = 1,2,3,....,N 
+        // here j is fixed for a specific training example as y is fixed for a particulatr training example/input
+
+Softmax Regression is mostly used for output layers of neural networks to show multi-class clasificiation. The hidden layers can be ReLU.
+
+model = Sequential( 
+                [Dense(units=3, activation='sigmoid'),
+                 Dense(units=1, activation='sigmoid'),
+                 Dense(units=10, activation='softmax')]
+            )
+
+model.compile( loss = SparseCategoricalCrossentropy() )
+    // round-off errors can occur here
+
+model = Sequential( 
+                [Dense(units=3, activation='sigmoid'),
+                 Dense(units=1, activation='sigmoid'),
+                 Dense(units=10, activation='linear')]
+            )
+model.compile( loss = SparseCategoricalCrossentropy(from_logits = True) )
+    // no round of errors as the z[logits] values are calculated while finding the Probability not as a specific step before it.
+
+// prediction
+logits = model(X)   // logits = Values of Z, output is z1,z2,z3...,zN
+prediction = tf.nn.softmax(logits)
+prediction = tf.nn.sigmoid(logits)
+
+MULTI-LABEL CLASSIFICATION
+ * In multi-label classification, the training set is composed of instances each associated with a set of labels, and the task is to predict the label sets of unseen instances through analyzing training instances with known label sets. (Genre perecentage in movies)
+ * Difference between multi-class classification & multi-label classification is that in multi-class problems the classes are mutually exclusive, whereas for multi-label problems each label represents a different classification task, but the tasks are somehow related.
+
+ADAM ALGORITHM
+ * ADAM - Adaptive Moment Estimation
+ * What it does is, it basically changes the learning rate(alpha) accordingly i.e. if the learning rate is too small and is moving in the same direction. It increases the learning rate to speed up the process of reaching the optimal solution and visa-versa, if the learning rate is too big or continuously keeps oscillating.
+ * It also specifies unqiue alphas for each of the neuron in the network
+
+ADDITIONAL LAYER TYPES
+In a dense nn, each neuron output is a function of all the activation outputs of the previous layer. Although models can be much more faster if we use convolutional neural networks, wherein not all neurons are connected to the next layer neurons but segmentation is done in such a way that few neurons of the previous layer are attached to one neuron of the next layer and this neuron is not attached to any other neurons.
